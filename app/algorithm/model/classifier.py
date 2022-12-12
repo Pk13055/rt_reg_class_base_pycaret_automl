@@ -5,9 +5,9 @@ import warnings
 import joblib
 import numpy as np
 import pandas as pd
-from pycaret.classification import compare_models, predict_model
+from pycaret.classification import compare_models
 from pycaret.classification import load_model as import_model
-from pycaret.classification import pull
+from pycaret.classification import predict_model, pull
 from pycaret.classification import save_model as dump_model
 from pycaret.classification import setup
 
@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore")
 
 model_fname = "model.save"
 pipeline_fname = "pipeline.save"
-MODEL_NAME = "bin_class_base_pycaret"
+MODEL_NAME = "mc_class_base_pycaret"
 
 
 class Classifier:
@@ -58,7 +58,7 @@ class Classifier:
 
         predictions = predict_model(self.model, X[self._categorical + self._numerical])
 
-        """ pycaret returns a dataframe with two columns added to the end: 
+        """ pycaret returns a dataframe with two columns added to the end:
             'Label' which has the predicted class
             'Score' which has the predicted probability for the predicted class
 

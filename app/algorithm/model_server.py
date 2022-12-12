@@ -39,7 +39,7 @@ class ModelServer:
         # preds = pipeline.get_inverse_transform_on_preds(preprocessor, model_cfg, preds)
         # get the names for the id and prediction fields
         id_field_name = self.data_schema["inputDatasets"][
-            "binaryClassificationBaseMainInput"
+            "multiClassClassificationBaseMainInput"
         ]["idField"]
         # return te prediction df with the id and prediction fields
         preds_df = data[[id_field_name]].copy()
@@ -51,7 +51,7 @@ class ModelServer:
         preds = self._get_predictions(data)
         # get the name for the id field
         id_field_name = self.data_schema["inputDatasets"][
-            "binaryClassificationBaseMainInput"
+            "multiClassClassificationBaseMainInput"
         ]["idField"]
         # return te prediction df with the id and class probability fields
         preds_df = data[[id_field_name]].copy()
