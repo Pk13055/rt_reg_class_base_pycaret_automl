@@ -3,7 +3,7 @@ import time
 import warnings
 
 import numpy as np
-from pycaret.classification import evaluate_model, tune_model
+from pycaret.regression import evaluate_model, tune_model
 from skopt.space import Categorical, Integer, Real
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"  # or any {'0', '1', '2'}

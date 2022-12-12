@@ -25,9 +25,7 @@ failure_path = os.path.join(output_path, "errors", "train_failure")
 # This algorithm has a single channel of input data called 'training'. Since we run in
 # File mode, the input files are copied to the directory specified here.
 channel_name = "training"
-data_path = os.path.join(
-    data_path, channel_name, "multiClassClassificationBaseMainInput"
-)
+data_path = os.path.join(data_path, channel_name, "regressionBaseMainInput")
 
 
 # The function to execute the training.

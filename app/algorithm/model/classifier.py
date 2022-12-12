@@ -5,18 +5,18 @@ import warnings
 import joblib
 import numpy as np
 import pandas as pd
-from pycaret.classification import compare_models
-from pycaret.classification import load_model as import_model
-from pycaret.classification import predict_model, pull
-from pycaret.classification import save_model as dump_model
-from pycaret.classification import setup
+from pycaret.regression import compare_models
+from pycaret.regression import load_model as import_model
+from pycaret.regression import predict_model, pull
+from pycaret.regression import save_model as dump_model
+from pycaret.regression import setup
 
 warnings.filterwarnings("ignore")
 
 
 model_fname = "model.save"
 pipeline_fname = "pipeline.save"
-MODEL_NAME = "mc_class_base_pycaret"
+MODEL_NAME = "reg_class_base_pycaret"
 
 
 class Classifier:

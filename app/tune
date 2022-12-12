@@ -23,9 +23,7 @@ hpt_results_path = os.path.join(output_path, "hpt_outputs")
 failure_path = os.path.join(output_path, "errors", "tune_failure")
 
 channel_name = "training"
-training_path = os.path.join(
-    data_path, channel_name, "multiClassClassificationBaseMainInput"
-)
+training_path = os.path.join(data_path, channel_name, "regressionBaseMainInput")
 
 
 def tune(num_trials=30):

@@ -35,12 +35,8 @@ inputs_path = "./ml_vol/inputs/"
 data_schema_path = os.path.join(inputs_path, "data_config")
 
 data_path = os.path.join(inputs_path, "data")
-train_data_path = os.path.join(
-    data_path, "training", "multiClassClassificationBaseMainInput"
-)
-test_data_path = os.path.join(
-    data_path, "testing", "multiClassClassificationBaseMainInput"
-)
+train_data_path = os.path.join(data_path, "training", "regressionBaseMainInput")
+test_data_path = os.path.join(data_path, "testing", "regressionBaseMainInput")
 
 model_path = "./ml_vol/model/"
 hyper_param_path = os.path.join(model_path, "model_config")
@@ -67,8 +63,8 @@ def create_ml_vol():
             "inputs": {
                 "data_config": None,
                 "data": {
-                    "training": {"multiClassClassificationBaseMainInput": None},
-                    "testing": {"multiClassClassificationBaseMainInput": None},
+                    "training": {"regressionBaseMainInput": None},
+                    "testing": {"regressionBaseMainInput": None},
                 },
             },
             "model": {
@@ -182,17 +178,13 @@ def get_test_key():
 
 def score(test_key, predictions, data_schema):
 
-    id_field = data_schema["inputDatasets"]["multiClassClassificationBaseMainInput"][
-        "idField"
-    ]
+    id_field = data_schema["inputDatasets"]["regressionBaseMainInput"]["idField"]
     target_class = str(
-        data_schema["inputDatasets"]["multiClassClassificationBaseMainInput"][
-            "targetClass"
-        ]
+        data_schema["inputDatasets"]["regressionBaseMainInput"]["targetClass"]
     )
-    target_field = data_schema["inputDatasets"][
-        "multiClassClassificationBaseMainInput"
-    ]["targetField"]
+    target_field = data_schema["inputDatasets"]["regressionBaseMainInput"][
+        "targetField"
+    ]
 
     pred_class_names = [str(c) for c in predictions.columns[1:]]
     predictions.columns = [str(c) for c in list(predictions.columns)]
@@ -306,16 +298,16 @@ if __name__ == "__main__":
     run_hpt_list = [False]
 
     datasets = [
-        "dna_splice_junction",
-        "gesture_phase",
-        "ipums_census_small",
-        "landsat_satellite",
-        "page_blocks",
-        "primary_tumor",
-        "soybean_disease",
-        "spotify_genre",
-        "steel_plate_fault",
-        "vehicle_silhouettes",
+        "abalone",
+        "ailerons",
+        "auto_prices",
+        "computer_activity",
+        "diamond",
+        "energy",
+        "heart_disease",
+        "house_prices",
+        "medical_costs",
+        "white_wine",
     ]
 
     for run_hpt in run_hpt_list:

@@ -38,7 +38,7 @@ def get_trained_model(train_data, data_schema, hyper_params):
 
 
 def train_model(train_data, data_schema, hyper_params):
-    info = data_schema["inputDatasets"]["multiClassClassificationBaseMainInput"]
+    info = data_schema["inputDatasets"]["regressionBaseMainInput"]
     target_field = info["targetField"]
     id_field = info["idField"]
     _categorical = [

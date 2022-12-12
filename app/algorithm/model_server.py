@@ -38,9 +38,9 @@ class ModelServer:
         # inverse transform the predictions to original scale
         # preds = pipeline.get_inverse_transform_on_preds(preprocessor, model_cfg, preds)
         # get the names for the id and prediction fields
-        id_field_name = self.data_schema["inputDatasets"][
-            "multiClassClassificationBaseMainInput"
-        ]["idField"]
+        id_field_name = self.data_schema["inputDatasets"]["regressionBaseMainInput"][
+            "idField"
+        ]
         # return te prediction df with the id and prediction fields
         preds_df = data[[id_field_name]].copy()
         preds_df["prediction"] = preds.values
@@ -50,9 +50,9 @@ class ModelServer:
     def predict_proba(self, data):
         preds = self._get_predictions(data)
         # get the name for the id field
-        id_field_name = self.data_schema["inputDatasets"][
-            "multiClassClassificationBaseMainInput"
-        ]["idField"]
+        id_field_name = self.data_schema["inputDatasets"]["regressionBaseMainInput"][
+            "idField"
+        ]
         # return te prediction df with the id and class probability fields
         preds_df = data[[id_field_name]].copy()
 
