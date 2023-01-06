@@ -151,7 +151,7 @@ def load_and_test_algo():
     # instantiate the trained model
     predictor = model_server.ModelServer(model_artifacts_path, data_schema)
     # make predictions
-    predictions = predictor.predict_proba(test_data)
+    predictions = predictor.predict(test_data)
     # save predictions
     predictions.to_csv(
         os.path.join(testing_outputs_path, "test_predictions.csv"), index=False

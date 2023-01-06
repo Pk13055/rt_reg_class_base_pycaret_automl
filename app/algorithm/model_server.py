@@ -63,5 +63,5 @@ class ModelServer:
 
     def _get_predictions(self, data):
         model = self._get_model()
-        preds = model.predict_proba(data)
+        preds = model.predict(data)
         return preds

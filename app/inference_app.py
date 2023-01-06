@@ -6,12 +6,9 @@ import os
 import sys
 import traceback
 import warnings
-from tempfile import NamedTemporaryFile
-from typing import Union
 
 import pandas as pd
-from fastapi import Depends, FastAPI, File, UploadFile
-from fastapi.responses import FileResponse
+from fastapi import Body, FastAPI
 
 warnings.filterwarnings("ignore")
 
@@ -38,12 +35,6 @@ model_server = ModelServer(model_path=model_path, data_schema=data_schema)
 app = FastAPI()
 
 
-async def gen_temp_file(ext: str = ".csv"):
-    """Generate a temporary file with a given extension"""
-    with NamedTemporaryFile(suffix=ext, delete=True) as temp_file:
-        yield temp_file.name
-
-
 @app.get("/ping", tags=["ping", "healthcheck"])
 async def ping() -> dict:
     """Determine if the container is working and healthy."""
@@ -54,35 +45,21 @@ async def ping() -> dict:
     }
 
 
-@app.post("/infer", tags=["inference"], response_class=FileResponse)
-async def infer(
-    input: UploadFile = File(...), temp=Depends(gen_temp_file)
-) -> Union[FileResponse, dict]:
+@app.post("/infer", tags=["inference"])
+async def infer(instances: list[dict] = Body(embed=True)) -> dict:
     """Do an inference on a single batch of data. In this sample server, we take data as CSV, convert
     it to a pandas data frame for internal use and then convert the predictions back to CSV (which really
     just means one prediction per line, since there's a single column.
     """
-    data = None
-
-    # Convert from CSV to pandas
-    if input.content_type == "text/csv":
-        data = await input.read()
-        temp_io = io.StringIO(data.decode("utf-8"))
-        data = pd.read_csv(temp_io)
-    else:
-        return {
-            "success": False,
-            "message": f"Content type {input.content_type} not supported (only CSV data allowed)",
-        }
-
+    data = pd.DataFrame.from_records(instances)
     print(f"Invoked with {data.shape[0]} records")
 
     # Do the prediction
     try:
-        predictions = model_server.predict(data, data_schema)
-        # Convert from dataframe to CSV
-        predictions.to_csv(temp, index=False)
-        return FileResponse(temp, media_type="text/csv")
+        predictions = model_server.predict(data)
+        return {
+            "predictions": predictions.to_dict(orient="records"),
+        }
     except Exception as err:
         # Write out an error file. This will be returned as the failureReason to the client.
         trc = traceback.format_exc()
